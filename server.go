@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Lojinha-DigiPort/loja-digiport-backend/model"
 	"encoding/json"
 	"net/http"
 )
@@ -12,9 +13,29 @@ func StartServer() {
 }
 
 func produtosHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		getProdutos(w, r)
+	} else if r.Method == "POST" {
+		addProduto(w, r)
+	}
+}
 
-	nome := "Blusa Floral"
-	produto := BuscaProdutoPorNome(nome)
+func addProduto(w http.ResponseWriter, r *http.Request) {
+	var produto model.Produto
+	json.NewDecoder(r.Body).Decode(&produto)
 
-	json.NewEncoder(w).Encode(produto)
+	criarcatalogo(produto)
+
+	w.WriteHeader(http.StatusCreated)
+}
+
+func getProdutos(w http.ResponseWriter, r *http.Request) {
+	queryNome := r.URL.Query().Get("nome")
+	if queryNome != "" {
+		produtosFitradosPorNome := BuscaProdutoPorNome(queryNome)
+		json.NewEncoder(w).Encode(produtosFitradosPorNome)
+	} else {
+		produtos := Produtos
+		json.NewEncoder(w).Encode(produtos)
+	}
 }
