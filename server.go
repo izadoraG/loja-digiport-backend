@@ -16,15 +16,19 @@ func produtosHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		getProdutos(w, r)
 	} else if r.Method == "POST" {
-		addProduto(w, r)
+		addProdutos(w, r)
 	}
 }
 
-func addProduto(w http.ResponseWriter, r *http.Request) {
+func addProdutos(w http.ResponseWriter, r *http.Request) {
 	var produto model.Produto
 	json.NewDecoder(r.Body).Decode(&produto)
 
-	criarcatalogo(produto)
+	err := addProduto(produto)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(model.Erro{ErrorMessage: err.Error()})
+	}
 
 	w.WriteHeader(http.StatusCreated)
 }
