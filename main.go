@@ -1,15 +1,25 @@
 package main
+import (
+	"database/sql"
+	"fmt"
+    "log"
 
-func main() {
-	StartServer()
+	_"github.com/lib/pq"
+)
+
+func main () {
+	db := ConectaBancoDados()
+	fmt.Println ("Bem vindo(a) a loja Digiport!")
+
+	defer db.Close()
+
 }
 
-/*import "fmt"
-
-func main() {
-	nome := "Blusa Floralll" // substituir por um nome de produto
-
-	produtosFiltrados := BuscaProdutoPorNome(nome)
-
-	fmt.Println(produtosFiltrados)
-}*/
+func ConectaBancoDados() *sql.DB {
+	connStr := "user=postgres dbname=digport_loja password=digport host=localhost sslmode=disable"
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return db
+}
