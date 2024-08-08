@@ -7,7 +7,7 @@ import (
 
 var Produtos []model.Produto = []model.Produto{}
 
-func criarcatalogo(produtoNovo model.Produto) error {
+func addProdutos(produtoNovo model.Produto) error {
 	for _, produto := range Produtos {
 		if produtoNovo.Id == produto.Id {
 			return errors.New("produto com Esse ID ja existente")
@@ -15,6 +15,7 @@ func criarcatalogo(produtoNovo model.Produto) error {
 		}
 	}
 	Produtos = append(Produtos, produtoNovo)
+	return nil
 }
 
 func BuscaProdutoPorNome(nome string) []model.Produto {
