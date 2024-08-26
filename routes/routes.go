@@ -13,5 +13,6 @@ func HandleRequest() {
 	route.HandleFunc("/produtos", controller.BuscaProdutoPorNomeHandler).Methods("GET")
 	route.HandleFunc("/produtos", controller.BuscaProdutosHandler).Methods("GET")
 	route.HandleFunc("/produtos", controller.CriaProdutosHandler).Methods("POST")
+	//route.HandleFunc("/produtos", controller.CriaProdutosHandler).Methods("POST")
 	http.ListenAndServe(":8080", route)
 }
