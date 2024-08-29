@@ -1,15 +1,18 @@
 package main
 
+import "fmt"
+
 func main() {
-	StartServer()
+
 }
 
-/*import "fmt"
+func soma(i, j int) int {
+	return i + j
+}
 
-func main() {
-	nome := "Blusa Floralll" // substituir por um nome de produto
-
-	produtosFiltrados := BuscaProdutoPorNome(nome)
-
-	fmt.Println(produtosFiltrados)
-}*/
+func validaNome(nome string) error {
+	if nome == "" {
+		return fmt.Errorf("nome não preenchido")
+	}
+	return nil
+}
