@@ -27,7 +27,7 @@ func BuscaTodosProdutos() []Produto {
 	db := db.ConectaBancoDados()
 
 	resultado, err := db.Query("SELECT * FROM produtos")
-	err = resultado.Scan(&id, &nome, &preco, &descricao, &imagem, &quantidade)
+	// err = resultado.Scan(&id, &nome, &preco, &descricao, &imagem, &quantidade)
 
 	if err != nil {
 		panic(err.Error())
@@ -38,6 +38,12 @@ func BuscaTodosProdutos() []Produto {
 	produtos := []Produto{}
 
 	for resultado.Next() {
+
+		err = resultado.Scan(&id, &nome, &preco, &descricao, &imagem, &quantidade)
+		if err != nil {
+			panic(err.Error())
+		}
+
 		p.Id = id
 		p.Nome = nome
 		p.Descricao = descricao
@@ -46,7 +52,6 @@ func BuscaTodosProdutos() []Produto {
 		p.QuantidadeEmEstoque = quantidade
 
 		produtos = append(produtos, p)
-
 	}
 
 	defer db.Close()

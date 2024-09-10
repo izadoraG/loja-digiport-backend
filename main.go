@@ -1,6 +1,9 @@
 package main
 
+import "Lojinha-DigiPort/loja-digiport-backend/db"
+
 func main() {
+	db.InitDB()
 	StartServer()
 }
 

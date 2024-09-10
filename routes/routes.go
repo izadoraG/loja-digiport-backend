@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 func HandleRequest() {
@@ -15,4 +16,16 @@ func HandleRequest() {
 	route.HandleFunc("/produtos", controller.CriaProdutosHandler).Methods("POST")
 	//route.HandleFunc("/produtos", controller.CriaProdutosHandler).Methods("POST")
 	http.ListenAndServe(":8080", route)
+
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "DELETE", "PUT"},
+		AllowedHeaders:   []string{"Content-Type"},
+		AllowCredentials: true,
+	})
+
+	handler := c.Handler(route)
+
+	http.ListenAndServe(":8080", handler)
+
 }
