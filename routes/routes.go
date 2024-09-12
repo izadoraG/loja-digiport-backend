@@ -14,7 +14,7 @@ func HandleRequest() {
 	route.HandleFunc("/produtos", controller.BuscaProdutoPorNomeHandler).Methods("GET")
 	route.HandleFunc("/produtos", controller.BuscaProdutosHandler).Methods("GET")
 	route.HandleFunc("/produtos", controller.CriaProdutosHandler).Methods("POST")
-	//route.HandleFunc("/produtos", controller.CriaProdutosHandler).Methods("POST")
+	route.HandleFunc("/produtos/{id}", controller.RemoveProdutoHandler).Methods("DELETE")
 	http.ListenAndServe(":8080", route)
 
 	c := cors.New(cors.Options{

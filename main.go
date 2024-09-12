@@ -1,6 +1,10 @@
 package main
 
-import "Lojinha-DigiPort/loja-digiport-backend/db"
+import (
+	"Lojinha-DigiPort/loja-digiport-backend/db"
+
+	_ "github.com/lib/pq"
+)
 
 func main() {
 	db.InitDB()

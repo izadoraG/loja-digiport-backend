@@ -70,15 +70,16 @@ func BuscaProdutoPorNome(nomeProduto string) Produto {
 		panic(err.Error())
 	}
 
-	var p Produto
-	p.Id = id
-	p.Nome = nome
-	p.Descricao = descricao
-	p.Imagem = imagem
-	p.QuantidadeEmEstoque = quantidade
+	var produto1 Produto
+	produto1.Id = id
+	produto1.Nome = nome
+	produto1.Preco = preco
+	produto1.Descricao = descricao
+	produto1.Imagem = imagem
+	produto1.QuantidadeEmEstoque = quantidade
 
 	defer db.Close()
-	return p
+	return produto1
 
 }
 
@@ -119,5 +120,28 @@ func CriaProduto(prod Produto) error {
 func produtoCadastrado(nomeProduto string) bool {
 	prod := BuscaProdutoPorNome(nomeProduto)
 	return prod.Nome == nomeProduto
+
+}
+
+func RemoveProduto(id string) error {
+	db := db.ConectaBancoDados()
+	defer db.Close()
+
+	//DELETE FROM [nome da tabela] WHERE [nome do campo] = [valor]
+	resultado, err := db.Exec("DELETE FROM PRODUTOS WHERE id = $1", id)
+	if err != nil {
+		fmt.Println("erro ao tentar excluir produto")
+		return fmt.Errorf("ocorreu um erro ao tentar excluir produto: %w", err)
+	}
+
+	linesAffected, err := resultado.RowsAffected()
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%d linhas afetadas", linesAffected)
+
+	fmt.Println("produto excluido")
+
+	return nil
 
 }

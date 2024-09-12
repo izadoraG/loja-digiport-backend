@@ -9,6 +9,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
+func InitDB() {
+	criaTabelas()
+}
+
 func ConectaBancoDados() *sql.DB {
 	dbPass := os.Getenv("DB_PASS")
 	connStr := fmt.Sprint("user=postgres dbname=digiport_loja password=", dbPass, " host=localhost sslmode=disable")
@@ -17,10 +21,6 @@ func ConectaBancoDados() *sql.DB {
 		log.Fatal(err)
 	}
 	return db
-}
-
-func InitDB() {
-	criaTabelas()
 }
 
 func criaTabelas() {
